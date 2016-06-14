@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 3f23890924540424cbe226a81bbd8645
+timeCreated: 1464864096
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - lostTile: {fileID: 159426, guid: 16debf14b62a2304993521e7d1a203d1, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
