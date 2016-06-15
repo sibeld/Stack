@@ -111,7 +111,9 @@ public class TheTile : MonoBehaviour {
 
 			if (transform.localScale.x < lostLenght) {
 				gameObject.AddComponent<Rigidbody>();
-				Application.LoadLevel ("Game");
+				Main mainScript = GameObject.FindWithTag ("Main").GetComponent <Main>();
+				mainScript.GameOver ();
+				//Application.LoadLevel ("Game");
 				return;
 			}
 
@@ -141,7 +143,9 @@ public class TheTile : MonoBehaviour {
 
 			if (transform.localScale.z < lostLenght) {
 				gameObject.AddComponent<Rigidbody>();
-				Application.LoadLevel ("Game");
+				Main mainScript = GameObject.FindWithTag ("Main").GetComponent <Main>();
+				mainScript.GameOver ();
+				//		Application.LoadLevel ("Game");
 				return;
 			}
 		

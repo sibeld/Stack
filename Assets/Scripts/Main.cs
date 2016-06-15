@@ -27,10 +27,12 @@ public class Main : MonoBehaviour {
 	bool startMove;
 	float lenghtOFMove;
 	float speed;
+	bool gameOver;
 
 	// Use this for initialization
 	void Start () {
 
+		gameOver = false;
 		modifier = 1;
 		colorIndex = 0;
 		startMove = false;
@@ -42,7 +44,10 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		if (gameOver)
+			return;
+
 		speed = 4 * Time.deltaTime;
 
 		if (!startMove && (Input.GetMouseButtonDown (0) || Input.GetKeyDown("space"))) {
@@ -102,4 +107,9 @@ public class Main : MonoBehaviour {
 		tileRend.material.color = spectrum[colorIndex];
 	}
 
+	public void GameOver(){
+		gameOver = true;
+		Camera cam = GameObject.FindWithTag ("MainCamera").GetComponent<Camera> ();
+		cam.orthographicSize = stack.Count;
+	}
 }
