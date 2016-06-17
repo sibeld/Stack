@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour {
 
+	public enum state
+	{
+		idle, //....includes the time which waits for tapping to start playing
+		running, //....playing time
+		gameover, //....includes the time which camera is set for viewing the completed stack
+		waitting //....to temporarily solve timing problems during mouse click. When ui is done it would be removed (if it becomes unnecessary)
+	}
+
 	public GameObject _tile;
 	List<GameObject> stack = new List<GameObject>();
 	List<Color32> spectrum = new List<Color32>(){
@@ -27,12 +35,13 @@ public class Main : MonoBehaviour {
 	bool startMove;
 	float lenghtOFMove;
 	float speed;
-	bool gameOver;
+	float camOrtSize_Final;
+	state gameState;
 
 	// Use this for initialization
 	void Start () {
 
-		gameOver = false;
+		gameState = state.running;
 		modifier = 1;
 		colorIndex = 0;
 		startMove = false;
@@ -45,8 +54,37 @@ public class Main : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (gameOver)
+		if (gameState == state.gameover) {
+
+			Camera cam = GameObject.FindWithTag ("MainCamera").GetComponent<Camera> ();
+
+			if (cam.orthographicSize >= stack.Count) {
+				gameState = state.waitting;
+				return;
+			}
+
+			float increment = 0.1f;
+			if (cam.orthographicSize >= camOrtSize_Final)
+				gameState = state.idle;
+			else
+				cam.orthographicSize = cam.orthographicSize + increment;
 			return;
+
+		} else if (gameState == state.idle) {
+
+			if (Input.GetMouseButtonUp (0))
+				Application.LoadLevel ("Game");
+			return;
+
+		} else if (gameState == state.waitting) {
+
+			if (Input.GetMouseButtonUp (0))
+				gameState = state.idle;
+			return;
+
+		}
+
+		//ELSE.....it means the game is running
 
 		speed = 4 * Time.deltaTime;
 
@@ -108,8 +146,8 @@ public class Main : MonoBehaviour {
 	}
 
 	public void GameOver(){
-		gameOver = true;
+		gameState = state.gameover;
 		Camera cam = GameObject.FindWithTag ("MainCamera").GetComponent<Camera> ();
-		cam.orthographicSize = stack.Count;
+		camOrtSize_Final = cam.orthographicSize + stack.Count*0.5f; //TODO: final size will be improved
 	}
 }
