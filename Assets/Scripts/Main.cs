@@ -63,7 +63,7 @@ public class Main : MonoBehaviour {
 				return;
 			}
 
-			float increment = 0.1f;
+			float increment = 0.5f;
 			if (cam.orthographicSize >= camOrtSize_Final)
 				gameState = state.idle;
 			else
@@ -101,15 +101,19 @@ public class Main : MonoBehaviour {
 				else
 					lenghtOFMove = speed;
 				startMove = false;
+
+				TextMesh scoreMesh = GameObject.Find("Score").GetComponent<TextMesh> ();
+				scoreMesh.text = (stack.Count - 1).ToString();
+
 				CreateNewTile ();
 			}
 		}
 	}
-
+	/*
 	void MoveTileDown(GameObject obj){
 		obj.transform.Translate (0, -0.2f, 0);
 	}
-		
+	*/	
 	void CreateNewTile(){
 
 		GameObject previousTile = stack[stack.Count - 1];
