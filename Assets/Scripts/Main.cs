@@ -38,9 +38,14 @@ public class Main : MonoBehaviour {
 	float camOrtSize_Final;
 	state gameState;
 
+	GameObject score;
+	float slideInSpeed;
+
 	// Use this for initialization
 	void Start () {
 
+		score = GameObject.Find ("Score");
+		slideInSpeed = 0.2f;
 		gameState = state.running;
 		modifier = 1;
 		colorIndex = 0;
@@ -49,8 +54,17 @@ public class Main : MonoBehaviour {
 		stack.Add (GameObject.FindWithTag ("Bottom_tile"));
 		stack [0].GetComponent<Renderer> ().material.color = spectrum [0];
 		CreateNewTile ();
+
+		StartCoroutine ("SlideIn");
 	}
-	
+
+	IEnumerator SlideIn(){
+		while(score.transform.localPosition.y > 7){
+			score.transform.Translate (0,-slideInSpeed,0);
+			slideInSpeed -= 0.005f;
+			yield return new WaitForSeconds (0.01f);
+		}
+	}
 	// Update is called once per frame
 	void Update () {
 
